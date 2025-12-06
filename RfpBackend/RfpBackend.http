@@ -1,0 +1,6 @@
+@RfpBackend_HostAddress = http://localhost:5172
+
+GET {{RfpBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

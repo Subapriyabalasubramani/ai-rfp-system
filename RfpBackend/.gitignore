@@ -1,0 +1,21 @@
+# 🔐 Do NOT commit environment-specific config with secrets
+appsettings.Development.json
+appsettings.json
+
+# SQLite database files (local only)
+*.db
+*.db-shm
+*.db-wal
+
+# .NET build outputs
+bin/
+obj/
+
+# User-specific / editor stuff
+.vscode/
+*.user
+*.suo
+
+# OS files
+.DS_Store
+Thumbs.db
