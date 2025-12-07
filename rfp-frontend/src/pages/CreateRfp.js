@@ -3,7 +3,7 @@ import axios from "axios";
 
 export default function CreateRfp() {
   const [text, setText] = useState("");
-  const [result, setResult] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -14,11 +14,18 @@ export default function CreateRfp() {
 
     setLoading(true);
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5172/api/rfp/create-from-text",
         { text }
       );
-      setResult(response.data);
+      setSuccess(true);
+      setText("");
+
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+
     } catch (error) {
       console.error(error);
       alert("Failed to create RFP");
@@ -27,13 +34,7 @@ export default function CreateRfp() {
   };
 
   return (
-    <div
-      style={{
-        padding: "40px",
-        maxWidth: "900px",
-        margin: "auto"
-      }}
-    >
+    <div style={{ padding: "40px", maxWidth: "900px", margin: "auto" }}>
       <h2 style={{ marginBottom: "20px" }}>
         Create RFP from Natural Language
       </h2>
@@ -72,30 +73,22 @@ export default function CreateRfp() {
         {loading ? "Processing..." : "Generate RFP"}
       </button>
 
-      {result && (
+      {success && (
         <div
           style={{
-            marginTop: "30px",
-            background: "#f8f9fa",
-            padding: "20px",
-            borderRadius: "8px",
-            border: "1px solid #e0e0e0"
+            position: "fixed",
+            top: "20px",
+            right: "20px",
+            background: "#28a745",
+            padding: "14px 20px",
+            borderRadius: "6px",
+            color: "white",
+            fontWeight: "600",
+            boxShadow: "0px 4px 10px rgba(0,0,0,0.15)",
+            animation: "fadeInOut 3s"
           }}
         >
-          <h3 style={{ marginBottom: 10 }}>Generated RFP Structure</h3>
-          <pre
-            style={{
-              whiteSpace: "pre-wrap",
-              wordWrap: "break-word",
-              fontSize: "14px",
-              background: "#fff",
-              padding: "15px",
-              borderRadius: "6px",
-              border: "1px solid #ddd"
-            }}
-          >
-            {JSON.stringify(result, null, 2)}
-          </pre>
+          RFP Generated Successfully!
         </div>
       )}
     </div>
